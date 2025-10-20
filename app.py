@@ -11,7 +11,7 @@ st.set_page_config(page_title="Elasticity Prototype (SEB schema)", layout="wide"
 DB_PATH = "results.duckdb"
 CSV_PATH = "results.csv"
 POLICY_PATH = "policies.yaml"
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "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")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 # ---------- HELPERS ----------
 @st.cache_data(show_spinner=False)
