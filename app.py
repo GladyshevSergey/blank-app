@@ -183,15 +183,26 @@ sel_channel = st.sidebar.selectbox("Channel", channels)
 sel_level_type = st.sidebar.selectbox("Level type", level_types)
 search_value = st.sidebar.text_input("Filter level_value (contains)", "")
 
+def sql_escape(s: str) -> str:
+    return s.replace("'", "''") if isinstance(s, str) else s
+
 query = "SELECT * FROM elasticities WHERE 1=1"
+
 if not include_overall:
     query += " AND (level_type IS NULL OR level_type <> 'overall')"
+
 if sel_channel != "(All)":
-    query += f" AND channel = '{sel_channel.replace(\"'\",\"''\")}'"
+    safe_channel = sql_escape(sel_channel)
+    query += f" AND channel = '{safe_channel}'"
+
 if sel_level_type != "(All)":
-    query += f" AND level_type = '{sel_level_type.replace(\"'\",\"''\")}'"
+    safe_level_type = sql_escape(sel_level_type)
+    query += f" AND level_type = '{safe_level_type}'"
+
 if search_value:
-    query += f" AND CAST(level_value AS VARCHAR) ILIKE '%{search_value.replace(\"'\",\"''\")}%'"
+    safe_search = sql_escape(search_value)
+    query += f" AND CAST(level_value AS VARCHAR) ILIKE '%{safe_search}%'"
+
 
 view_df = query_duckdb(query)
 
