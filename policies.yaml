@@ -1,0 +1,16 @@
+confidence_bands:
+  low:   { abs_e_lt: 0.2,  guidance: "Low price sensitivity; focus on non-price levers." }
+  mid:   { abs_e_ge: 0.2, abs_e_lt: 0.8, guidance: "Moderate sensitivity; measured price moves can work." }
+  high:  { abs_e_ge: 0.8, guidance: "High sensitivity; small moves have large effects." }
+
+r2_thresholds:
+  weak:    { lt: 0.10, caveat: "Low explanatory power; qualify insights, check non-price drivers." }
+  decent:  { ge: 0.10, caveat: "" }
+
+constraints:
+  max_abs_price_move_pct: 10       # hard business guardrail (±10%)
+  require_ci_not_cross_zero: true  # warn if CI spans 0 (uncertain elasticity)
+
+output_format:
+  bullets: 4
+  include: ["verdict", "expected_volume_change", "revenue_implication", "next_actions"]
